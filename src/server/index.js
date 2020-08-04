@@ -71,37 +71,4 @@ async function sentimentAnalyser (req, res) {
             .catch((error) => {
                 console.log("error in promise (server side): ", error);
             });
-
-    //
-    // projectData.text = req.body.text;
-    // projectData.subjectivity = req.body.subjectivity;
-    // projectData.polarity = req.body.polarity;
-    // projectData.polarity_confidence = (req.body.polarity_confidence);
-    // console.log(projectData)
-    // console.log("req: " + req)
-    // res.send(projectData)
    }
-
-/**
- * @description POST route
- *
- * @description Add data received from client-side to the projectData object
- * @returns data received from client-side POST
- *
- **/
-// app.post("/add", (req, res) => {
-//
-//     projectData.text = req.body.text;
-//     projectData.subjectivity = req.body.subjectivity;
-//     projectData.polarity = req.body.polarity;
-//     projectData.polarity_confidence = (req.body.polarity_confidence * 100);
-//
-//     res.send(projectData);
-// });
-
-// TODO: remove to check if the app works without it
-// module.exports = app;
-
-//TODO: remove
-// console.log(`Your API ID is ${process.env.API_ID}`)
-// console.log(`Your API Key is ${process.env.API_KEY}`)

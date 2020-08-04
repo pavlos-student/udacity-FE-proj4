@@ -5,7 +5,7 @@ async function handleSubmit(event) {
     // retrieve the url that was set by the user in the UI form field
     const inputUrl = document.getElementById('url').value
 
-    console.log("::: Form Submitted :::")
+    console.log("::: Form is being Submitted :::")
 
     // call the internal server API, the latter will fetch the data from the external API
     const response = await fetch('http://localhost:8081/analyseURL', {
@@ -33,6 +33,7 @@ async function handleSubmit(event) {
         alert("Analysis complete");
         updateUI(response);
     }
+    console.log("::: Form Submitted :::")
 }
 
 function updateUI(data){
