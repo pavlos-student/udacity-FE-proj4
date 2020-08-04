@@ -24,15 +24,34 @@
         <main>
             <section>
                 <form class="" onsubmit="return Client.handleSubmit(event)">
-                    <input id="name" type="text" name="input" value="" onblur="onBlur()" placeholder="Name">
-                    <input type="submit" name="" value="submit" onclick="return handleSubmit(event)" onsubmit="return handleSubmit(event)">
+                    <label for="url">Type the URL to the text you want to analyse</label>
+                    <input id="url" type="text" name="input" value="" placeholder="URL">
+                    <input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)"
+                           onsubmit="return Client.handleSubmit(event)">
                 </form>
-            <section>
-
-            <section>
-                <strong>Form Results:</strong>
-                <div id="results"></div>
             </section>
+
+                <section>
+                    <strong>Sentiment Analysis:</strong>
+                    <ul>
+                        <li>
+                            <h4>Text Polarity:</h3>
+                                <p id="polarity"></p>
+                                <h4>Confidence:</h4>
+                                <p id="polarity_confidence"></p>
+                        </li>
+                        <li>
+                            <h4>Text Subjectivity:</h4>
+                                <p id="subjectivity"></p>
+                                <h4>Confidence:</h4>
+                                <p id="subjectivity_confidence"></p>
+                        </li>
+                        <li>
+                            <h3>Text:</h3>
+                            <p id="nlp-text"></p>
+                        </li>
+                    </ul>
+                </section>
         </main>
 
         <footer>
