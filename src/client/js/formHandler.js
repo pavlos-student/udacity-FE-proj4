@@ -27,8 +27,6 @@ async function handleSubmit(event) {
             console.log("error with API call response: ", error);
         });
 
-    console.log("response: " + response);
-
     if (response.status.code !== '0') {
         alert("Please enter a valid url")
     } else {

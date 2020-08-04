@@ -64,7 +64,7 @@ async function sentimentAnalyser (req, res) {
     //get data from the external API
     const apiData =
         await fetch (baseURL + key + queryParams + urlToBeAnalysed)
-            .then( retrievedApiData => apiData.json())
+            .then( apiData => apiData.json())
             .then( data => {
                 res.send(data)
             })
