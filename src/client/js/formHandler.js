@@ -31,25 +31,16 @@ async function handleSubmit(event) {
         alert("Please enter a valid url")
     } else {
         alert("Analysis complete");
-        // updateUI(response);
+        updateUI(response);
     }
+}
 
-    // fetch('http://localhost:8081/analyseURL', {
-    //     method: 'POST',
-    //     credentials: 'same-origin',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({url})
-    // })
-    //     .then(res => res.json())
-    //     .then(function (res) {
-    //         document.getElementById('nlp-text').innerHTML = res.text;
-    //         document.getElementById('polarity').innerHTML = res.polarity;
-    //         document.getElementById('polarity_confidence').innerHTML = res.polarity_confidence;
-    //         document.getElementById('subjectivity').innerHTML = res.subjectivity;
-    //         document.getElementById('subjectivity_confidence').innerHTML = res.subjectivity_confidence;
-    //     })
+function updateUI(data){
+    document.getElementById('polarity').innerHTML = data.score_tag.toLowerCase()
+    document.getElementById('agreement').innerHTML = data.agreement.toLowerCase();
+    document.getElementById('subjectivity').innerHTML = data.subjectivity.toLowerCase();
+    document.getElementById('irony').innerHTML = data.irony.toLowerCase();
+    document.getElementById('confidence').innerHTML = data.confidence+"%";
 }
 
 export { handleSubmit }
