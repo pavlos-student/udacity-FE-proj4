@@ -9,12 +9,17 @@ const  cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config({ path: './process.env' });
 
-// import and initiate the Aylien API SDK (for Sentiment Analysis)
-const aylienTextAPI = require('aylien_textapi');
-const textapi = new aylienTextAPI({
-    application_id: process.env.API_ID,
-    application_key: process.env.API_KEY
-});
+// MeaningCloud API base URL
+const baseURL='https://api.meaningcloud.com/sentiment-2.1?key=';
+
+// MeaningCloud API query parameters
+const queryParams = '&lang=en&url=';
+
+// MeaningCloud API key (set in the environment variables' file)
+const key = process.env.API_KEY;
+
+// to be used to fetch data from the MeaningCloud API (for Sentiment Analysis)
+const fetch = require('node-fetch');
 
 // start up an instance of app using express for routing
 const app = express()
@@ -33,7 +38,7 @@ app.listen(8081, function () {
     console.log('app listening on port 8081!')
 })
 
-// wepback outputs to the 'dist' folder
+// webpack outputs to the 'dist' folder
 app.get('/', (req, res) => {
     res.sendFile('dist/index.html')
     //res.sendFile(path.resolve('src/client/views/index.html'))
@@ -47,45 +52,56 @@ app.get('/test', function (req, res) {
 projectData = {};
 
 // post the url to be analysed by the sentiment analyser
-app.post('/sentiment-analysis', (req, res) => {
-    textapi.sentiment ({
-            url: req.body.url,
-            mode: 'document'
-        },
-       (error, response) => {
-       if(error) {
-           console.log('Error during Aylien POST request --> ' + error)
-           res.send();
-           return;
-       }
-       else {
-           console.log('Aylien API succesfull with the following response' + response)
-           res.send(response)
-       }
-   })
-})
+app.post('/analyseURL', sentimentAnalyser)
+
+async function sentimentAnalyser (req, res) {
+
+    // prepare MeaningCloud url to be fetched
+    console.log("data back from API: " + req.body)
+    const urlToBeAnalysed = req.body.url;
+    console.log("URL To Be Analysed: ", urlToBeAnalysed)
+
+    //get data from the external API
+    const apiData =
+        await fetch (baseURL + key + queryParams + urlToBeAnalysed)
+            .then( retrievedApiData => apiData.json())
+            .then( data => {
+                res.send(data)
+            })
+            .catch((error) => {
+                console.log("error in promise (server side): ", error);
+            });
+
+    //
+    // projectData.text = req.body.text;
+    // projectData.subjectivity = req.body.subjectivity;
+    // projectData.polarity = req.body.polarity;
+    // projectData.polarity_confidence = (req.body.polarity_confidence);
+    // console.log(projectData)
+    // console.log("req: " + req)
+    // res.send(projectData)
+   }
 
 /**
  * @description POST route
  *
- * @description Add aylientext-data received from client-side to the projectData object
+ * @description Add data received from client-side to the projectData object
  * @returns data received from client-side POST
  *
  **/
-app.post("/add", (req, res) => {
-
-    projectData.text = req.body.text;
-    projectData.subjectivity = req.body.subjectivity;
-    projectData.polarity = req.body.polarity;
-    projectData.polarity_confidence = (req.body.polarity_confidence * 100);
-
-    res.send(projectData);
-});
+// app.post("/add", (req, res) => {
+//
+//     projectData.text = req.body.text;
+//     projectData.subjectivity = req.body.subjectivity;
+//     projectData.polarity = req.body.polarity;
+//     projectData.polarity_confidence = (req.body.polarity_confidence * 100);
+//
+//     res.send(projectData);
+// });
 
 // TODO: remove to check if the app works without it
 // module.exports = app;
 
 //TODO: remove
-console.log("Your API ID is" + textapi.application_id)
-console.log(`Your API ID is ${process.env.API_ID}`)
-console.log(`Your API Key is ${process.env.API_KEY}`)
+// console.log(`Your API ID is ${process.env.API_ID}`)
+// console.log(`Your API Key is ${process.env.API_KEY}`)
